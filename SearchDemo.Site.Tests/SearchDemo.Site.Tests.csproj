@@ -6,11 +6,11 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{1E47AA96-F995-41E2-88EE-4E046BCFDD28}</ProjectGuid>
+    <ProjectGuid>{D7D8B0DE-2E1D-493E-A92E-63AA297470BE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SearchDemo.Tests</RootNamespace>
-    <AssemblyName>SearchDemo.Tests</AssemblyName>
+    <RootNamespace>SearchDemo.Site.Tests</RootNamespace>
+    <AssemblyName>SearchDemo.Site.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -98,6 +98,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SearchDemo.Site\SearchDemo.Site.csproj">
+      <Project>{E154A8F1-CE87-4AB4-9214-ABF617659372}</Project>
+      <Name>SearchDemo.Site</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
