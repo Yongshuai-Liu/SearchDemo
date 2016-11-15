@@ -5,14 +5,14 @@
 <div class="jumbotron">
     <h1>Lucene Search Demo</h1>
     <p class="lead">Use the search box below to search through File table</p>
-    @using (Html.BeginForm("Search", "Search"))
+    @using (Html.BeginForm("SearchResult", "Search"))
     {
         <div class="row">
             <div class="col-sm-4">
                 @Html.TextBox("SearchString", null, new { @class = "form-control" })
             </div>
             <div class="col-sm-1">
-                <input type="submit" value="Search" class="btn btn-default v-top" />
+                <input type="submit" value="Search" class="btn btn-primary v-top" />
             </div>
         </div>
     }
