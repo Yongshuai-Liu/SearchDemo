@@ -19,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Databases", "Databases", "{
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "SearchDemo.Database.Demo", "SearchDemo.Database.Demo\SearchDemo.Database.Demo.sqlproj", "{E4BE90FE-4F12-465F-A686-63A97605FEF3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SearchDemo.ViewModels", "SearchDemo.ViewModels\SearchDemo.ViewModels.csproj", "{C5F95D86-4DAA-46E9-8EFC-4FCD2F0EDA5C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{E4BE90FE-4F12-465F-A686-63A97605FEF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E4BE90FE-4F12-465F-A686-63A97605FEF3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E4BE90FE-4F12-465F-A686-63A97605FEF3}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{C5F95D86-4DAA-46E9-8EFC-4FCD2F0EDA5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5F95D86-4DAA-46E9-8EFC-4FCD2F0EDA5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5F95D86-4DAA-46E9-8EFC-4FCD2F0EDA5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5F95D86-4DAA-46E9-8EFC-4FCD2F0EDA5C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

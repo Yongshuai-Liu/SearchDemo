@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{54DC0379-BFC6-4A08-94D0-EB19FB0DA022}</ProjectGuid>
+    <ProjectGuid>{C5F95D86-4DAA-46E9-8EFC-4FCD2F0EDA5C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SearchDemo.BLL</RootNamespace>
-    <AssemblyName>SearchDemo.BLL</AssemblyName>
+    <RootNamespace>SearchDemo.ViewModels</RootNamespace>
+    <AssemblyName>SearchDemo.ViewModels</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,14 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Lucene.Net, Version=3.0.3.0, Culture=neutral, PublicKeyToken=85089178b9ac3181, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lucene.Net.3.0.3\lib\NET40\Lucene.Net.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -49,24 +41,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\ServiceImpl\LuceneSearch.cs" />
+    <Compile Include="Site\FileViewModel.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SearchDemo.Data.DemoDB\SearchDemo.Data.DemoDB.csproj">
-      <Project>{267EE47A-A030-4256-9A9D-267CE5666D21}</Project>
-      <Name>SearchDemo.Data.DemoDB</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SearchDemo.Repositories\SearchDemo.Repositories.csproj">
-      <Project>{73835287-a602-4903-894d-c0e021b0c2d7}</Project>
-      <Name>SearchDemo.Repositories</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\ServiceInterfaces\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
