@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SearchDemo.Data.DemoDB;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -42,6 +43,28 @@ namespace SearchDemo.ViewModels.Site
             result = $"{len:0.##} {sizes[order]}";
 
             return result;
+        }
+
+        public List<FileViewModel> ConvertFromFileDB(IEnumerable<File> files)
+        {
+            var fileViewModels = new List<FileViewModel>();
+            foreach (var file in files)
+            {
+                var fileViewModel = new FileViewModel()
+                {
+                    ID = file.ID,
+                    Name = file.Name,
+                    ContentType = file.ContentType,
+                    CreateDateTime = file.CreatedDate,
+                    FolderID = file.FolderID,
+                    Dimension = file.Dimensions,
+                    Link = file.Link,
+                    Resolution = file.Resolution,
+                    Size = file.Size.ToString(),
+                };
+                fileViewModels.Add(fileViewModel);
+            }
+            return fileViewModels;
         }
     }
 }

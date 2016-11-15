@@ -43,7 +43,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Site\FileViewModel.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\SearchDemo.Data.DemoDB\SearchDemo.Data.DemoDB.csproj">
+      <Project>{267EE47A-A030-4256-9A9D-267CE5666D21}</Project>
+      <Name>SearchDemo.Data.DemoDB</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

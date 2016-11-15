@@ -30,24 +30,18 @@ namespace SearchDemo.Site.Controllers
         public ActionResult Index()
         {
             var files = LuceneFileSearch.GetAllIndexRecords();
-            var fileViewModels = new List<FileViewModel>();
-            foreach (var file in files)
-            {
-                var fileViewModel = new FileViewModel()
-                {
-                    ID = file.ID,
-                    Name = file.Name,
-                    ContentType = file.ContentType,
-                    CreateDateTime = file.CreatedDate,
-                    FolderID = file.FolderID,
-                    Dimension = file.Dimensions,
-                    Link = file.Link,
-                    Resolution = file.Resolution,
-                    Size = file.Size.ToString(),
-                };
-                fileViewModels.Add(fileViewModel);
-            }
+            var fileViewModel = new FileViewModel();
+            var fileViewModels = fileViewModel.ConvertFromFileDB(files);
             return View(fileViewModels);
         }
+
+        public ActionResult SearchResult(string searchString)
+        {
+            var files = LuceneFileSearch.Search(searchString);
+            var fileViewModel = new FileViewModel();
+            var fileViewModels = fileViewModel.ConvertFromFileDB(files);
+            return View(fileViewModels);
+        }
+
     }
 }
