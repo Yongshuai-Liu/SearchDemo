@@ -20,9 +20,13 @@ namespace SearchDemo.Site.Controllers
         {
             _fileRepository = fileRepository;
             var files = _fileRepository.GetAll();
+            // init Lucene Search Index
             LuceneFileSearch.AddUpdateLuceneIndex(files);
+            LuceneFileSearch.Optimize();
         }
         #endregion
+
+        #region Public Methods
         /// <summary>
         /// Return list of files to show
         /// </summary>
@@ -30,6 +34,7 @@ namespace SearchDemo.Site.Controllers
         public ActionResult Index()
         {
             var files = LuceneFileSearch.GetAllIndexRecords();
+            LuceneFileSearch.Optimize();
             var fileViewModel = new FileViewModel();
             var fileViewModels = fileViewModel.ConvertFromFileDB(files);
             return View(fileViewModels);
@@ -38,10 +43,11 @@ namespace SearchDemo.Site.Controllers
         public ActionResult SearchResult(string searchString)
         {
             var files = LuceneFileSearch.Search(searchString);
+            LuceneFileSearch.Optimize();
             var fileViewModel = new FileViewModel();
             var fileViewModels = fileViewModel.ConvertFromFileDB(files);
             return View(fileViewModels);
         }
-
+        #endregion
     }
 }

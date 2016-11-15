@@ -33,6 +33,7 @@ namespace SearchDemo.BLL.Services.ServiceImpl
         }
         #endregion
 
+        #region Public Methods
         public static IEnumerable<FileDB> GetAllIndexRecords()
         {
             // validate search index
@@ -53,8 +54,7 @@ namespace SearchDemo.BLL.Services.ServiceImpl
         /// </summary>
         /// <param name="input"></param>
         /// <param name="fieldName"></param>
-        /// <returns></returns>
-        #region Public Methods
+        /// <returns></returns>        
         public static IEnumerable<FileDB> Search(string input, string fieldName = "")
         {
             if (string.IsNullOrEmpty(input)) return new List<FileDB>();
@@ -65,7 +65,6 @@ namespace SearchDemo.BLL.Services.ServiceImpl
 
             return _search(input, fieldName);
         }
-
         /// <summary>
         /// Default search, does not modify search query
         /// </summary>
@@ -94,7 +93,6 @@ namespace SearchDemo.BLL.Services.ServiceImpl
         {
             AddUpdateLuceneIndex(new List<FileDB> { file });
         }
-
         /// <summary>
         /// Remove record by ID, call this after delete database table rows 
         /// </summary>
@@ -114,7 +112,6 @@ namespace SearchDemo.BLL.Services.ServiceImpl
                 writer.Dispose();
             }
         }
-
         /// <summary>
         /// Remove whole index, call whenever database schema changes, or want to clear the whole index 
         /// </summary>
@@ -140,7 +137,6 @@ namespace SearchDemo.BLL.Services.ServiceImpl
             }
             return true;
         }
-
         /// <summary>
         /// Optimize index and proper lock/unlock file
         /// </summary>
@@ -203,12 +199,10 @@ namespace SearchDemo.BLL.Services.ServiceImpl
         {
             return hits.Select(_mapLuceneDocumentToData).ToList();
         }
-        private static IEnumerable<FileDB> _mapLuceneToDataList(IEnumerable<ScoreDoc> hits,
-            IndexSearcher searcher)
+        private static IEnumerable<FileDB> _mapLuceneToDataList(IEnumerable<ScoreDoc> hits, IndexSearcher searcher)
         {
             return hits.Select(hit => _mapLuceneDocumentToData(searcher.Doc(hit.Doc))).ToList();
         }
-
         private static Query parseQuery(string searchQuery, QueryParser parser)
         {
             Query query;
@@ -222,7 +216,6 @@ namespace SearchDemo.BLL.Services.ServiceImpl
             }
             return query;
         }
-
         private static IEnumerable<FileDB> _search(string searchQuery, string searchField = "")
         {
             // validation
