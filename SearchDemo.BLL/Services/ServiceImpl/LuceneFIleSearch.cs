@@ -15,7 +15,7 @@ using FileDB = SearchDemo.Data.DemoDB.File;
 
 namespace SearchDemo.BLL.Services.ServiceImpl
 {
-    public static class LuceneSearch
+    public static class LuceneFileSearch
     {
         #region Field
         private static string _luceneDir = AppDomain.CurrentDomain.BaseDirectory + @"\" + "lucene_index";
@@ -33,10 +33,49 @@ namespace SearchDemo.BLL.Services.ServiceImpl
         }
         #endregion
 
-        #region Constructor
-        #endregion
+        public static IEnumerable<FileDB> GetAllIndexRecords()
+        {
+            // validate search index
+            if (!System.IO.Directory.EnumerateFiles(_luceneDir).Any()) return new List<FileDB>();
 
+            // set up lucene searcher
+            var searcher = new IndexSearcher(_directory, false);
+            var reader = IndexReader.Open(_directory, false);
+            var docs = new List<Document>();
+            var term = reader.TermDocs();
+            while (term.Next()) docs.Add(searcher.Doc(term.Doc));
+            reader.Dispose();
+            searcher.Dispose();
+            return _mapLuceneToDataList(docs);
+        }
+        /// <summary>
+        /// Able to search by partial words
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="fieldName"></param>
+        /// <returns></returns>
         #region Public Methods
+        public static IEnumerable<FileDB> Search(string input, string fieldName = "")
+        {
+            if (string.IsNullOrEmpty(input)) return new List<FileDB>();
+            // replaces all dashes "-", adds "*" (star) after each word, so can search by partial words.
+            var terms = input.Trim().Replace("-", " ").Split(' ')
+                .Where(x => !string.IsNullOrEmpty(x)).Select(x => x.Trim() + "*");
+            input = string.Join(" ", terms);
+
+            return _search(input, fieldName);
+        }
+
+        /// <summary>
+        /// Default search, does not modify search query
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="fieldName"></param>
+        /// <returns></returns>
+        public static IEnumerable<FileDB> SearchDefault(string input, string fieldName = "")
+        {
+            return string.IsNullOrEmpty(input) ? new List<FileDB>() : _search(input, fieldName);
+        }
         public static void AddUpdateLuceneIndex(IEnumerable<FileDB> files)
         {
             // init lucene
@@ -168,6 +207,68 @@ namespace SearchDemo.BLL.Services.ServiceImpl
             IndexSearcher searcher)
         {
             return hits.Select(hit => _mapLuceneDocumentToData(searcher.Doc(hit.Doc))).ToList();
+        }
+
+        private static Query parseQuery(string searchQuery, QueryParser parser)
+        {
+            Query query;
+            try
+            {
+                query = parser.Parse(searchQuery.Trim());
+            }
+            catch (ParseException)
+            {
+                query = parser.Parse(QueryParser.Escape(searchQuery.Trim()));
+            }
+            return query;
+        }
+
+        private static IEnumerable<FileDB> _search(string searchQuery, string searchField = "")
+        {
+            // validation
+            if (string.IsNullOrEmpty(searchQuery.Replace("*", "").Replace("?", ""))) return new List<FileDB>();
+
+            // set up lucene searcher
+            using (var searcher = new IndexSearcher(_directory, false))
+            {
+                var hits_limit = 1000;
+                var analyzer = new StandardAnalyzer(Version.LUCENE_30);
+
+                // search by single field
+                if (!string.IsNullOrEmpty(searchField))
+                {
+                    var parser = new QueryParser(Version.LUCENE_30, searchField, analyzer);
+                    var query = parseQuery(searchQuery, parser);
+                    var hits = searcher.Search(query, hits_limit).ScoreDocs;
+                    var results = _mapLuceneToDataList(hits, searcher);
+                    analyzer.Close();
+                    searcher.Dispose();
+                    return results;
+                }
+                // search by multiple fields (ordered by RELEVANCE)
+                else
+                {
+                    var parser = new MultiFieldQueryParser
+                        (Version.LUCENE_30, new[] 
+                        {
+                            "Id",
+                            "Name",
+                            "ContentType",
+                            "Size",
+                            "Link",
+                            "CreatedDate",
+                            "Dimensions",
+                            "Resolution"
+                        }, analyzer);
+                    var query = parseQuery(searchQuery, parser);
+                    var hits = searcher.Search
+                    (query, null, hits_limit, Sort.RELEVANCE).ScoreDocs;
+                    var results = _mapLuceneToDataList(hits, searcher);
+                    analyzer.Close();
+                    searcher.Dispose();
+                    return results;
+                }
+            }
         }
         #endregion
     }

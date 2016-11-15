@@ -1,26 +1,53 @@
-﻿using System;
+﻿using SearchDemo.BLL.Services.ServiceImpl;
+using SearchDemo.Repositories.IRepositories.DemoDB;
+using SearchDemo.ViewModels.Site;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.IO;
-using Lucene.Net.Analysis.Standard;
-using Lucene.Net.Documents;
-using Lucene.Net.Index;
-using Lucene.Net.QueryParsers;
-using Lucene.Net.Search;
-using Lucene.Net.Store;
-using Version = Lucene.Net.Util.Version;
 using System.Web.Mvc;
 
 namespace SearchDemo.Site.Controllers
 {
     public class SearchController : Controller
     {
-       
-        // GET: Search
+        #region Fields
+        private readonly IFileRepository _fileRepository;
+        #endregion
+
+        #region Constructor
+        public SearchController(IFileRepository fileRepository)
+        {
+            _fileRepository = fileRepository;
+            var files = _fileRepository.GetAll();
+            LuceneFileSearch.AddUpdateLuceneIndex(files);
+        }
+        #endregion
+        /// <summary>
+        /// Return list of files to show
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
         {
-            return View();
+            var files = LuceneFileSearch.GetAllIndexRecords();
+            var fileViewModels = new List<FileViewModel>();
+            foreach (var file in files)
+            {
+                var fileViewModel = new FileViewModel()
+                {
+                    ID = file.ID,
+                    Name = file.Name,
+                    ContentType = file.ContentType,
+                    CreateDateTime = file.CreatedDate,
+                    FolderID = file.FolderID,
+                    Dimension = file.Dimensions,
+                    Link = file.Link,
+                    Resolution = file.Resolution,
+                    Size = file.Size.ToString(),
+                };
+                fileViewModels.Add(fileViewModel);
+            }
+            return View(fileViewModels);
         }
     }
 }
