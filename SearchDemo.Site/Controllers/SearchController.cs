@@ -1,4 +1,5 @@
-﻿using SearchDemo.BLL.Services.ServiceImpl;
+﻿using NHunspell;
+using SearchDemo.BLL.Services.ServiceImpl;
 using SearchDemo.Repositories.IRepositories.DemoDB;
 using SearchDemo.ViewModels.Site;
 using System;
@@ -47,6 +48,21 @@ namespace SearchDemo.Site.Controllers
             var fileViewModel = new FileViewModel();
             var fileViewModels = fileViewModel.ConvertFromFileDB(files);
             return View(fileViewModels);
+        }
+        [HttpPost]
+        public JsonResult GetSuggestions(string searchString)
+        {
+            var suggestions = new List<string>();
+            using (Hunspell hunspell = new Hunspell(System.Web.HttpContext.Current.Server.MapPath("~/Assets/dictionaries/en_us.aff"),
+    System.Web.HttpContext.Current.Server.MapPath("~/Assets/dictionaries/en_us.dic")))
+            {
+                bool correct = hunspell.Spell(searchString);
+                if (!correct)
+                {
+                    suggestions = hunspell.Suggest(searchString);
+                }
+            }
+            return Json(suggestions, JsonRequestBehavior.AllowGet);
         }
         #endregion
     }

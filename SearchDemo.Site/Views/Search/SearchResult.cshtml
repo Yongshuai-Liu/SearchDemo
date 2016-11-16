@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<SearchDemo.ViewModels.Site.FileViewModel>
-<script type="text/javascript" src="~/Scripts/common.js"></script>
+<script type="text/javascript" src="~/Scripts/search.js"></script>
 <input type="button" value="Back" class="btn btn-primary base-margin" onclick="goBack()"/>
-<table class="table">
+<table class="table col-sm-8">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Name)
@@ -60,3 +60,4 @@
 }
 
 </table>
+

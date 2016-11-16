@@ -5,17 +5,5 @@
 <div class="jumbotron">
     <h1>Lucene Search Demo</h1>
     <p class="lead">Use the search box below to search through File table</p>
-    @using (Html.BeginForm("SearchResult", "Search"))
-    {
-        <div class="row">
-            <div class="col-sm-4">
-                @Html.TextBox("SearchString", null, new { @class = "form-control" })
-            </div>
-            <div class="col-sm-1">
-                <button type="submit" class="btn btn-primary v-top">
-                    <i class="fa fa-search"></i> Search
-                </button>
-            </div>
-        </div>
-    }
+    @Html.Partial("_SearchBox")
 </div>
