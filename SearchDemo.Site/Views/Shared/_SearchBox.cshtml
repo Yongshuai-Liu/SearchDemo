@@ -1,9 +1,9 @@
-﻿<script type="text/javascript" src="~/Scripts/search.js"></script>
+﻿<script type="text/javascript" src="~/Scripts/Search/search.js"></script>
 @using (Html.BeginForm("SearchResult", "Search"))
 {
     <div class="row">
         <div class="col-sm-4">
-            @Html.TextBox("searchString", null, new { @class = "form-control", @onchange = "getSuggestion();" })
+            <input type="text" name="searchString" id="searchString" class="form-control"/>
         </div>
         <div class="col-sm-1">
             <button type="submit" class="btn btn-primary v-top">

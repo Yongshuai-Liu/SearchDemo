@@ -1,5 +1,6 @@
 ﻿using NHunspell;
 using SearchDemo.BLL.Services.ServiceImpl;
+using SearchDemo.Data.DemoDB;
 using SearchDemo.Repositories.IRepositories.DemoDB;
 using SearchDemo.ViewModels.Site;
 using System;
@@ -14,47 +15,34 @@ namespace SearchDemo.Site.Controllers
     {
         #region Fields
         private readonly IFileRepository _fileRepository;
+        private readonly List<File> _files;
         #endregion
 
         #region Constructor
         public SearchController(IFileRepository fileRepository)
         {
             _fileRepository = fileRepository;
-            var files = _fileRepository.GetAll();
-            // init Lucene Search Index
-            LuceneFileSearch.AddUpdateLuceneIndex(files);
-            LuceneFileSearch.Optimize();
+            _files = _fileRepository.GetAll().ToList();
         }
         #endregion
 
         #region Public Methods
-        /// <summary>
-        /// Return list of files to show
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult Index()
-        {
-            var files = LuceneFileSearch.GetAllIndexRecords();
-            LuceneFileSearch.Optimize();
-            var fileViewModel = new FileViewModel();
-            var fileViewModels = fileViewModel.ConvertFromFileDB(files);
-            return View(fileViewModels);
-        }
-
         public ActionResult SearchResult(string searchString)
         {
-            var files = LuceneFileSearch.Search(searchString);
+            // init Lucene Search Index            
+            LuceneFileSearch.AddUpdateLuceneIndex(_files);
             LuceneFileSearch.Optimize();
+            var result = LuceneFileSearch.Search(searchString);            
             var fileViewModel = new FileViewModel();
-            var fileViewModels = fileViewModel.ConvertFromFileDB(files);
+            var fileViewModels = fileViewModel.ConvertFromFileDB(result);
             return View(fileViewModels);
         }
         [HttpPost]
-        public JsonResult GetSuggestions(string searchString)
+        public JsonResult SpellCheck(string searchString)
         {
             var suggestions = new List<string>();
             using (Hunspell hunspell = new Hunspell(System.Web.HttpContext.Current.Server.MapPath("~/Assets/dictionaries/en_us.aff"),
-    System.Web.HttpContext.Current.Server.MapPath("~/Assets/dictionaries/en_us.dic")))
+                                                    System.Web.HttpContext.Current.Server.MapPath("~/Assets/dictionaries/en_us.dic")))
             {
                 bool correct = hunspell.Spell(searchString);
                 if (!correct)
@@ -62,6 +50,12 @@ namespace SearchDemo.Site.Controllers
                     suggestions = hunspell.Suggest(searchString);
                 }
             }
+            return Json(suggestions, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public JsonResult GetSuggestedWords(string searchString)
+        {
+            var suggestions = LuceneFileSearch.FindSuggestions(searchString);
             return Json(suggestions, JsonRequestBehavior.AllowGet);
         }
         #endregion

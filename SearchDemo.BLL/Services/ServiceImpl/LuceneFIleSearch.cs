@@ -26,8 +26,6 @@ namespace SearchDemo.BLL.Services.ServiceImpl
             {
                 if (_directoryTemp == null) _directoryTemp = FSDirectory.Open(new DirectoryInfo(_luceneDir));
                 if (IndexWriter.IsLocked(_directoryTemp)) IndexWriter.Unlock(_directoryTemp);
-                var lockFilePath = Path.Combine(_luceneDir, "write.lock");
-                if (System.IO.File.Exists(lockFilePath)) System.IO.File.Delete(lockFilePath);
                 return _directoryTemp;
             }
         }
@@ -150,6 +148,17 @@ namespace SearchDemo.BLL.Services.ServiceImpl
                 writer.Dispose();
             }
         }
+        /// <summary>
+        /// Return potential search words based on what is being searched
+        /// </summary>
+        /// <param name="searchQuery"></param>
+        /// <returns></returns>
+        public static string[] FindSuggestions(string searchQuery)
+        {
+            var spell = new SpellChecker.Net.Search.Spell.SpellChecker(_directory);
+            var similarWords = spell.SuggestSimilar(searchQuery, 20);
+            return similarWords;
+        }
         #endregion
 
         #region Private Methods
@@ -263,6 +272,7 @@ namespace SearchDemo.BLL.Services.ServiceImpl
                 }
             }
         }
+
         #endregion
     }
 }
