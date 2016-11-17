@@ -9,13 +9,30 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
+        <h3 class="panel-title">Quick rundown:</h3>
+    </div>
+    <div class="panel-body">
+        <p>The purpose of this search demo application is to showcase Lucene Search and other technologies I used along the way.</p>
+        <p>To start, you will need to create your local copy of the Demo database for the application to search, and here is the steps how:</p>
+        <ol>
+            <li>Please find the database project <b>[SearchDemo.Database.Demo]</b> under <b>[Databases]</b> folder in Solution Explorer</li>
+            <li>Please use this database project to create your local database, and name it <b>Demo</b>, now you should have a local database called <b>Demo</b> with 1 table called <b>Files</b></li>
+            <li>Please use the <b>seed_data.sql</b> in <b>[SeedData]</b> folder to populate the <b>File</b> table, it contains around 2000+ rows of sample file data</li>
+            <li>Now you are good to search!</li>
+        </ol>
+
+        <p><i>Thanks for your time! -Lucas </i><i class="fa fa-smile-o" aria-hidden="true"></i></p>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
         <h3 class="panel-title">Some features:</h3>
     </div>
     <div class="panel-body">
         <p>The site is build using N-Tier architecture design, we have <b>SearchDemo.Site</b> on top of <b>SearchDemo.BLL</b> on top of <b>SearchDemo.Repositories</b> on top of the T-SQL database. This structure will make it easy to scale and modify.</p>
         <p>When you search, as you type, you will notice a autocomplete dropdown to suggest you some potential search words, it is using JQuery Ajax call to get result set from backend, I used NHunspell nuget package to support this feature</p>
         <p>The search support partial word search, means if you search 'tes', tes* results will show up as well</p>
-        <p><i>Thanks for your time! -Lucas </i><i class="fa fa-smile-o" aria-hidden="true"></i></p>
     </div>
 </div>
 
@@ -31,6 +48,8 @@
             <li>Dependency Injection</li>
             <li>JQuery</li>
             <li>Bootstrap</li>
+            <li>AutoComplete</li>
+            <li>DataTables</li>
             <li>Fontawesome</li>
             <li>Ajax</li>
             <li>Linq</li>

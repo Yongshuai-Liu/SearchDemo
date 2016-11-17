@@ -21,12 +21,15 @@ namespace SearchDemo.Site
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
+                      "~/Scripts/jquery.dataTables.min.js",
+                      "~/Scripts/dataTables.bootstrap.min.js",
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css",
-                      "~/Content/font-awesome.min.css"));
+                      "~/Content/dataTables.bootstrap.min.css",
+                      "~/Content/font-awesome.min.css",
+                      "~/Content/site.css"));
 
             //Jquery UI
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(

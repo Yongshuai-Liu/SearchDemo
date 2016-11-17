@@ -1,4 +1,5 @@
 ﻿$(document).ready(function () {
+    $('#searchResultDataTable').DataTable();
     $('#searchString').autocomplete({
         source: function (request, response) {
             $.ajax({
@@ -30,6 +31,7 @@
     });
 
 });
+
 function goBack() {
     window.history.back();
 }
