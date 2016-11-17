@@ -1,33 +1,4 @@
 ﻿$(document).ready(function () {
-    function goBack() {
-        window.history.back();
-    }
-
-    function getSuggestion() {
-        var searchString = $('#searchString').val();
-        $.ajax({
-            url: '/Search/SpellCheck',
-            type: 'POST',
-            data: {
-                searchString: searchString
-            },
-            success: function (response) {
-                //if there's suggest words, show it
-                if (response.length > 0) {
-                    var suggestions = "Do you meant to search: ";
-                    $.each(response, function (i, val) {
-                        suggestions += " " + val;
-                    });
-                    $('#suggestions').text(suggestions);
-                }
-                    //otherwise, reset suggestion tip
-                else {
-                    $('#suggestions').text("");
-                }
-            }
-        });
-    }
-
     $('#searchString').autocomplete({
         source: function (request, response) {
             $.ajax({
@@ -52,8 +23,39 @@
         close: function (event, ui) {
         },
         minLength: 2,
-        focus: function () { },
+        focus: function () {
+        },
         select: function () { },
         scroll: !0
     });
+
 });
+function goBack() {
+    window.history.back();
+}
+
+function getSuggestion() {
+    var searchString = $('#searchString').val();
+    $.ajax({
+        url: '/Search/SpellCheck',
+        type: 'POST',
+        data: {
+            searchString: searchString
+        },
+        success: function (response) {
+            //if there's suggest words, show it
+            if (response.length > 0) {
+                var suggestions = "Do you meant to search: ";
+                $.each(response, function (i, val) {
+                    suggestions += " " + val;
+                });
+                $('#suggestions').text(suggestions);
+            }
+                //otherwise, reset suggestion tip
+            else {
+                $('#suggestions').text("");
+            }
+        }
+    });
+}
+

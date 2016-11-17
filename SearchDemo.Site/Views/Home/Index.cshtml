@@ -2,8 +2,42 @@
     ViewBag.Title = "Home Page";
 }
 
-<div class="jumbotron">
-    <h1>Lucene Search Demo</h1>
-    <p class="lead">Use the search box below to search through File table</p>
-    @Html.Partial("_SearchBox")
+<h1>Lucene Search Demo</h1>
+<p class="lead">Use the search box below to search through Files table</p>
+@Html.Partial("_SearchBox")
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Some features:</h3>
+    </div>
+    <div class="panel-body">
+        <p>The site is build using N-Tier architecture design, we have <b>SearchDemo.Site</b> on top of <b>SearchDemo.BLL</b> on top of <b>SearchDemo.Repositories</b> on top of the T-SQL database. This structure will make it easy to scale and modify.</p>
+        <p>When you search, as you type, you will notice a autocomplete dropdown to suggest you some potential search words, it is using JQuery Ajax call to get result set from backend, I used NHunspell nuget package to support this feature</p>
+        <p>The search support partial word search, means if you search 'tes', tes* results will show up as well</p>
+        <p><i>Thanks for your time! -Lucas </i><i class="fa fa-smile-o" aria-hidden="true"></i></p>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Some technologies used:</h3>
+    </div>
+    <div class="panel-body">
+        <ul>
+            <li>Lucene Search</li>
+            <li>MVC</li>
+            <li>Entityframework</li>
+            <li>Dependency Injection</li>
+            <li>JQuery</li>
+            <li>Bootstrap</li>
+            <li>Fontawesome</li>
+            <li>Ajax</li>
+            <li>Linq</li>
+            <li>NHunspell</li>
+            <li>Castle Windsor</li>
+            <li>TSQL</li>
+            <li>CSS</li>
+        </ul>
+    </div>
 </div>
